@@ -1,6 +1,7 @@
 ## Water Leak Detection Project
 
-[Image of Your Team Logo](https://github.com/ayoubmajid67/hackathon-EDITION-2/blob/main/logo.png)
+[Image of Your Team Logo](https://github.com/ayoubmajid67/hackathon-EDITION-2/blob/main/logo.png?raw=true)
+![Safar](https://github.com/ayoubmajid67/PFA3IIR/blob/main/front-end/imgs/safarProfile.png?raw=true)
 
 ### Project Overview
 This project aims to develop a software application to detect water leaks based on sound, pressure, and flow rate data.
