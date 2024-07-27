@@ -1,7 +1,6 @@
 ## Water Leak Detection Project
 
-[Image of Your Team Logo](https://github.com/ayoubmajid67/hackathon-EDITION-2/blob/main/logo.png?raw=true)
-
+![Image of Your Team Logo](https://github.com/ayoubmajid67/hackathon-EDITION-2/blob/main/logo.png?raw=true)
 
 ### Project Overview
 This project aims to develop a software application to detect water leaks based on sound, pressure, and flow rate data.
@@ -21,4 +20,4 @@ This project aims to develop a software application to detect water leaks based 
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/water-leak-detection.git](https://github.com/yourusername/water-leak-detection.git)
+   git clone https://github.com/yourusername/water-leak-detection.git
