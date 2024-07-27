@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>dashboard</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/dashboard.css" />
+	</head>
+	<body>
+		<header>
+			<div class="leftContainer">
+				<div class="logoContainer">
+					<img src="imgs/logo.png" alt="logo img" />
+				</div>
+
+				<h1 class="pageName">Dashboard</h1>
+			</div>
+			<nav class="rightContainer">
+				<ul>
+					<li class="signOutBtn"><button class="signOutBtn">signOut</button></li>
+					<li class="profile">
+						<div class="profileImg">
+							<img src="imgs/default_profile.png" alt="" />
+						</div>
+					</li>
+				</ul>
+			</nav>
+		</header>
+
+		<div class="mainContent">
+			<div class="actualDataContainer">
+				<div class="card pression">
+					<h2>7437 <span>Pa</span></h2>
+					<p>pression actuel</p>
+				</div>
+		
+				<div class="card debit">
+					<h2>2000 <span>m³/s</span></h2>
+					<p>debit actuel</p>
+				</div>
+		
+				<div class="card etat">
+					<button class="statBtn">On</button>
+					<p>etat actuel</p>
+				</div>
+			</div>
+			</div>
+            <div class="detailsContainer">
+                <div class="detailsCard">
+                    <div class="detailsHeader">
+                        <span class="detailsIcon">✏️</span>
+                        <span class="detailsDistance">distance</span>
+                    </div>
+                    <p class="detailsDistanceValue">100m</p>
+                    <p class="detailsDate">date</p>
+                    <p class="detailsDescription">description</p>
+                </div>
+
+
+		</div>
+
+		<section class="hint">
+			<div class="alert alert-primary">
+				<h3 class="alert-title">Hello World</h3>
+				<p class="alert-content">Lorem ipsum</p>
+			</div>
+		</section>
+
+		<script src="js/script.js"></script>
+		<script src="js/dashboard.js"></script>
+	</body>
+</html>
