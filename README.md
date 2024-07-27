@@ -1,26 +1,23 @@
 ## Water Leak Detection Project
 
-### Project Members
-* John Doe (Team Leader)
-* Jane Smith
-* Alex Johnson
+[Image of Your Team Logo](./logo.png)
 
 ### Project Overview
 This project aims to develop a software application to detect water leaks based on sound, pressure, and flow rate data.
 
-### Dependencies
-* Python
-* NumPy
-* Pandas
-* Librosa
-* TensorFlow/Keras
+### Project Members
+* Anwar011 (Team Leader)
+* aymaneberka
+* FarzizYassine
+* ayoubmajid67
+
+### Project Structure
+* **data:** Stores raw and processed data.
+* **models:** Contains trained machine learning models.
+* **src:** Contains the main project code.
+* **requirements.txt:** Lists project dependencies.
 
 ### Installation
-1. Clone the repository.
-2. Create a virtual environment.
-3. Install required dependencies using `pip install -r requirements.txt`.
-
-### Usage
-To run the application, execute the following command:
-```bash
-python main.py
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/yourusername/water-leak-detection.git](https://github.com/yourusername/water-leak-detection.git)
