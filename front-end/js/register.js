@@ -44,7 +44,7 @@ registerForm.addEventListener("submit", async function (event) {
 		if (!response.ok) {
 			const errorData = await response.json();
 			console.log(errorData);
-			alertHint(errorData.message, "warning");
+			alertHint(errorData.error, "warning");
 			return;
 		}
 

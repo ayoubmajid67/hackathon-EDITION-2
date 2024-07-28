@@ -29,44 +29,57 @@
 		</header>
 
 		<div class="mainContent">
+			<div class="mainTitle">Donnees Actuel</div>
 			<div class="actualDataContainer">
 				<div class="card pression">
 					<h2>7437 <span>Pa</span></h2>
-					<p>pression actuel</p>
+					<p>pression actuelle</p>
 				</div>
-		
+
 				<div class="card debit">
-					<h2>2000 <span>m³/s</span></h2>
-					<p>debit actuel</p>
+					<h2>2000 <span>m³/minute</span></h2>
+					<p>débit actuel</p>
 				</div>
-		
+
 				<div class="card etat">
 					<button class="statBtn">On</button>
-					<p>etat actuel</p>
+					<p>état actuel</p>
 				</div>
 			</div>
-			</div>
-            <div class="detailsContainer">
-                <div class="detailsCard">
-                    <div class="detailsHeader">
-                        <span class="detailsIcon">✏️</span>
-                        <span class="detailsDistance">distance</span>
-                    </div>
-                    <p class="detailsDistanceValue">100m</p>
-                    <p class="detailsDate">date</p>
-                    <p class="detailsDescription">description</p>
-                </div>
-
-
 		</div>
+		<div class="mainTitle">détection des fuites</div>
+		<div class="detailsContainer">
+			<div class="leftContent">
+				<p class="detailsDate">date</p>
 
+				<p class="detailsDescription">description</p>
+			</div>
+
+			<div class="rightContent">
+				<img src="imgs/distIcon.png" alt="" />
+				<span class="detailsDistance">distance</span>
+				<p class="detailsDistanceValue">100m</p>
+			</div>
+		</div>
+		<div class="mainTitle">Statistiques</div>
+		<div class="statistiqeContainer">
+        	<div class="imgContainer">
+				<img src="imgs/etatActuel.png" alt="">
+			</div>
+			<div class="imgContainer">
+				<img src="imgs/historique.png" alt="">
+			</div>
+	
+		</div>
+	
 		<section class="hint">
 			<div class="alert alert-primary">
 				<h3 class="alert-title">Hello World</h3>
 				<p class="alert-content">Lorem ipsum</p>
 			</div>
 		</section>
-
+		<!-- axios -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js" integrity="sha512-JSCFHhKDilTRRXe9ak/FJ28dcpOJxzQaCd3Xg8MyF6XFjODhy/YMCM8HW0TFDckNHWUewW+kfvhin43hKtJxAw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="js/script.js"></script>
 		<script src="js/dashboard.js"></script>
 	</body>

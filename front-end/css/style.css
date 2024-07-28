@@ -22,11 +22,11 @@ body {
 display: flex;
 flex-direction: column;
 
-overflow: hidden;
+
 }
 html{
-    overflow: hidden;
-    height: 100vh;
+
+    min-height: 100vh;
 }
 
 :root{ 
@@ -239,4 +239,61 @@ section.hint.ActiveAlter {
     font-size: 14px;
     color: #555555;
 }
+
+
+/* start components */
+.mainTitle {
+    margin: 80px auto 80px;
+
+    padding: 20px 20px;
+    font-size: 40px;
+    width: fit-content;
+    position: relative;
+    font-weight: bold;
+    z-index: 1;
+    transition: 0.3s;
+    font-family: "Julee", cursive;
+    text-transform: uppercase;
+    font-variant: small-caps;
+
+}
+
+@media (max-width :552px) {
+    .mainTitle {
+        overflow: hidden;
+    }
+
+}
+
+.mainTitle::after,
+.mainTitle::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-color: var(--secondaryColor);
+    position: absolute;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+
+
+}
+
+.mainTitle::before {
+    left: -30px;
+}
+
+.mainTitle::after {
+    right: -30px;
+}
+
+.mainTitle:hover::before {
+    z-index: -1;
+}
+
+.mainTitle:hover::after {
+    z-index: -1;
+
+}
+
 

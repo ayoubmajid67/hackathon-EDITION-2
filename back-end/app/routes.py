@@ -12,8 +12,10 @@ import app.models.user as user_model
 import app.utile as utile
 import bcrypt
 
+import pickle
+bp = Blueprint('api', __name__) 
 
-bp = Blueprint('api', __name__)
+
 
 
 def token_required(f):
@@ -211,3 +213,43 @@ def get_user_role(current_user):
     if not user_role:
         return jsonify({"error": "invalid user type"})
     return jsonify({"role": user_role}), 200
+
+
+import pandas as pd
+
+
+
+import joblib
+
+# Function to load model and encoder
+def load_model_and_encoder():
+    model = joblib.load('./logistic_regression_model.joblib')
+    encoder = joblib.load('./encoder.joblib')
+    return model, encoder
+
+# Function to predict with the model
+def predict(model, encoder, input_data):
+    input_encoded = encoder.transform(input_data)
+    prediction = model.predict(input_encoded)
+    return prediction
+
+
+@bp.route('/predict', methods=['POST'])
+@token_required
+def predict_data(current_user):
+    data = request.get_json()
+    pressure = data['pressure']
+    flow = data['flow']
+
+    # Access the model and encoder from the app config
+    # Load the trained model and encoder with joblib
+    # model = current_app.config['MODEL']
+    # encoder=current_app.config['ENCODER']
+    model,encoder=load_model_and_encoder(); 
+    input_data = pd.DataFrame([[pressure, flow]], columns=['Pressure', 'Flow'])
+   
+
+    prediction = predict(model, encoder, input_data)
+
+    # Return the prediction as a JSON response
+    return jsonify({'anomaly': int(prediction[0])})
