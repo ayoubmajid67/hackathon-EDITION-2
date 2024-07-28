@@ -221,17 +221,34 @@ import pandas as pd
 
 import joblib
 
-# Function to load model and encoder
-def load_model_and_encoder():
-    model = joblib.load('./logistic_regression_model.joblib')
-    encoder = joblib.load('./encoder.joblib')
-    return model, encoder
+# # Function to load model and encoder
+# def load_model_and_encoder():
+#     model = joblib.load('./logistic_regression_model.joblib')
+#     encoder = joblib.load('./encoder.joblib')
+#     return model, encoder
 
-# Function to predict with the model
-def predict(model, encoder, input_data):
-    input_encoded = encoder.transform(input_data)
-    prediction = model.predict(input_encoded)
-    return prediction
+# # Function to predict with the model
+# def predict(model, encoder, input_data):
+#     input_encoded = encoder.transform(input_data)
+#     prediction = model.predict(input_encoded)
+#     return prediction
+
+
+def predict_anomaly(pressure, flow):
+    # Load the model and scaler
+    with open('svm_model.pkl', 'rb') as model_file:
+        model = pickle.load(model_file)
+    with open('scaler.pkl', 'rb') as scaler_file:
+        scaler = pickle.load(scaler_file)
+    
+    # Prepare the data for prediction
+    input_data = pd.DataFrame([[pressure, flow]], columns=['Pressure', 'Flow'])
+    input_scaled = scaler.transform(input_data)
+    
+    # Predict using the trained model
+    prediction = model.predict(input_scaled)
+    
+    return int(prediction[0])
 
 
 @bp.route('/predict', methods=['POST'])
@@ -245,11 +262,9 @@ def predict_data(current_user):
     # Load the trained model and encoder with joblib
     # model = current_app.config['MODEL']
     # encoder=current_app.config['ENCODER']
-    model,encoder=load_model_and_encoder(); 
-    input_data = pd.DataFrame([[pressure, flow]], columns=['Pressure', 'Flow'])
-   
 
-    prediction = predict(model, encoder, input_data)
+    prediction = predict_anomaly(pressure, flow)
+
 
     # Return the prediction as a JSON response
-    return jsonify({'anomaly': int(prediction[0])})
+    return jsonify({'anomaly': int(prediction)})

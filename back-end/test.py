@@ -1,83 +1,67 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.metrics import classification_report, accuracy_score
-from sklearn.preprocessing import OneHotEncoder
-import os
-import joblib
+from sklearn.preprocessing import StandardScaler
+from imblearn.over_sampling import SMOTE
+import pickle
 
-# Function to load data
-def load_data(csv_file_path):
-    if not os.path.exists(csv_file_path):
-        raise FileNotFoundError(f"{csv_file_path} not found. Please check the path.")
-    return pd.read_csv(csv_file_path)
+# Load the data
+data = pd.read_csv('water_leak_dataset_final.csv')
 
-# Function to encode features
-def encode_features(X):
-    encoder = OneHotEncoder(handle_unknown='ignore')
-    X_encoded = encoder.fit_transform(X)
-    return X_encoded, encoder
+# Select features and target
+X = data[['Pressure', 'Flow']]
+y = data['Anomaly']
 
-# Function to train and save the model
-def train_and_save_model(X_train, y_train):
-    model = LogisticRegression()
-    model.fit(X_train, y_train)
-    joblib.dump(model, 'logistic_regression_model.joblib')
-    return model
+# Encode and scale features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
 
-# Function to evaluate the model
-def evaluate_model(model, X_test, y_test):
-    y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    print("Accuracy:", accuracy * 100, "%")
-    print("Classification Report:\n", classification_report(y_test, y_pred, zero_division=0))
-    return accuracy
+# Apply SMOTE to balance the classes
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X_scaled, y)
 
-# Function to load model and encoder
-def load_model_and_encoder():
-    model = joblib.load('logistic_regression_model.joblib')
-    encoder = joblib.load('encoder.joblib')
-    return model, encoder
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
 
-# Function to predict with the model
-def predict(model, encoder, input_data):
-    input_encoded = encoder.transform(input_data)
-    prediction = model.predict(input_encoded)
-    return prediction
+# Create and train the SVM model
+model = SVC(kernel='rbf', gamma='auto', probability=True)
+model.fit(X_train, y_train)
 
-# Main function to execute the workflow
-def main():
-    # Load the data
-    data = load_data('water_leak_dataset_final.csv')
+# Save the trained model and scaler
+with open('svm_model.pkl', 'wb') as model_file:
+    pickle.dump(model, model_file)
 
-    # Select features and target
-    X = data[['Pressure', 'Flow']]
-    y = data['Anomaly']
+with open('scaler.pkl', 'wb') as scaler_file:
+    pickle.dump(scaler, scaler_file)
 
-    # Encode features with handling unknown categories
-    X_encoded, encoder = encode_features(X)
+# Predict on the test set
+y_pred = model.predict(X_test)
 
-    # Split data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X_encoded, y, test_size=0.2, random_state=42)
+# Evaluate the model
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy * 100, "%")
+print("Classification Report:\n", classification_report(y_test, y_pred, zero_division=0))
 
-    # Create and train the model
-    model = train_and_save_model(X_train, y_train)
-
-    # Save the encoder
-    joblib.dump(encoder, 'encoder.joblib')
-
-    # Evaluate the model
-    evaluate_model(model, X_test, y_test)
-
-    # Load the trained model and encoder
-    model, encoder = load_model_and_encoder()
-
-    # Prepare input data
-    input_data = pd.DataFrame([[40, 130]], columns=['Pressure', 'Flow'])
-
+# Function to make predictions with new input
+def predict_anomaly(pressure, flow):
+    # Load the model and scaler
+    with open('svm_model.pkl', 'rb') as model_file:
+        model = pickle.load(model_file)
+    with open('scaler.pkl', 'rb') as scaler_file:
+        scaler = pickle.load(scaler_file)
+    
+    # Prepare the data for prediction
+    input_data = pd.DataFrame([[pressure, flow]], columns=['Pressure', 'Flow'])
+    input_scaled = scaler.transform(input_data)
+    
     # Predict using the trained model
-    prediction = predict(model, encoder, input_data)
-    print(prediction[0])
+    prediction = model.predict(input_scaled)
+    
+    return int(prediction[0])
 
-if __name__ == "__main__":
-    main()
+# Test the function with sample inputs
+pressure_input = 23.23
+flow_input = 171.82
+anomaly_prediction = predict_anomaly(pressure_input, flow_input)
+print(f"Anomaly prediction for Pressure={pressure_input} and Flow={flow_input}: {anomaly_prediction}")

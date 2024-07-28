@@ -14,8 +14,8 @@ const arrAnomaly = [
 		flow: "1.2",
 	},
 	{
-		pressure: "4.1",
-		flow: "0.9",
+		pressure: "23.23",
+		flow: "171.82",
 	},
 	{
 		pressure: "3.9",
@@ -95,7 +95,7 @@ async function getPredictResponse(pressure, flow) {
 
 function getHtmlResponse(anomalyStat) {
 	if (anomalyStat) {
-		detectContainer.classList.add("remove");
+		detectContainer.classList.remove("disable");
 		return `<div class="leftContent">
 				<p class="detailsDate">${new Date()}</p>
 
@@ -116,6 +116,7 @@ function getHtmlResponse(anomalyStat) {
 async function manageAlertAnomaly(pressure, flow) {
 	try {
 		let anomaly = await getPredictResponse(pressure, flow);
+		console.log(anomaly);
 		detectContainer.innerHTML = getHtmlResponse(anomaly);
 		changeStatBtnDom(anomaly);
 		console.log(pressure);
@@ -127,6 +128,10 @@ async function manageAlertAnomaly(pressure, flow) {
 }
 
 window.addEventListener("load", async function () {
+
+	if (!isLogin()) {
+		this.location = "/login.html";
+	}
 	for (anomalyInfo of arrAnomaly) {
 		await manageAlertAnomaly(anomalyInfo.pressure, anomalyInfo.flow);
 		await wait(10 * 1000);
